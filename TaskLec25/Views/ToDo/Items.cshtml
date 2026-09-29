@@ -1,0 +1,129 @@
+﻿@model ItemsReturnVM
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Todo List</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 22px 38px;
+            color: #222;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 500;
+            margin: 0 0 20px 0;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        a {
+            color: #1769aa;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .create-link {
+            font-size: 18px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            font-size: 18px;
+            padding: 0 10px 15px 10px;
+            border-bottom: 2px solid #555;
+        }
+
+        td {
+            font-size: 17px;
+            padding: 13px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        .action a {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Welcome, @Model.name</h1>
+
+    <p>Here is your to-do list:</p>
+
+    <a href="/ToDo/Create?id=@Model.Id" class="create-link">Create New</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>File</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var item in Model.Tasks)
+            {
+                <tr>
+                <td>@item.Name</td>
+                <td><p class="" >@item.Description</p></td>
+                            @if (item.Deadline <= DateTime.Now.AddHours(1) && item.Deadline >= DateTime.Now)
+                            {
+                            <td >
+                               <p class="text-danger">
+                                   @item.Deadline
+                               </p> 
+                            </td>
+                        }
+                        else
+                        {
+                            <td >
+                               <p>
+                                   @item.Deadline
+                               </p> 
+                            </td>
+                        }
+                        <td><a href="#" title="Download">
+                    <i class="fa-solid fa-download"></i>
+                    </a>
+                </td>
+
+                <td class="action">
+                    <a href="/ToDo/Edit?TaskId=@item.MyTaskId&userid=@Model.Id">Edit</a>
+                    <a href="/ToDo/DeleteItem?id=@item.MyTaskId&userid=@Model.Id">Delete</a>
+                </td>
+                 </tr>
+                    
+            }
+
+         
+        </tbody>
+    </table>
+
+</body>
+</html>
